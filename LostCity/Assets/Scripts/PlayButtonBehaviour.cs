@@ -20,11 +20,11 @@ public class PlayButtonBehaviour : MonoBehaviour {
     } 
     void OnMouseEnter()
     {
-        transform.position = new Vector3(-1, 2, 1);
+        transform.position = new Vector3(-49, 2, 1);
     }
 
-    private void OnMouseExit()
+    void OnMouseExit()
     {
-        transform.position = new Vector3(-1, 2, -1);
+        transform.position = new Vector3(-49, 2, -1);
     }
 }

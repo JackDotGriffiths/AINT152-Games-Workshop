@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CarAlarmBehaviour : MonoBehaviour
+public class ExampleClass : MonoBehaviour
 {
-    private AudioSource audioSource;
-    public AudioClip CarAlarm;
+    AudioSource audio;
 
-    void OnTrigger2D(Trigger2D other)
+    void Start()
     {
-        if (other.gameObject.tag == "Bullet(Clone)")
-        {
-            audioSource = GetComponent<AudioSource>();
-            audioSource.clip = CarAlarm;
-            audioSource.Play();
-        }
+        audio = GetComponent<AudioSource>();
+    }
+
+    void OnCollisionEnter(Collision Bullet)
+    {
+            audio.Play();
     }
 }
