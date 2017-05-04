@@ -3,7 +3,7 @@ using System.Collections;
 public class Bullet2D : MonoBehaviour
 {
     public float speed = 5.0f;
-    public float destroyTime = 0.7f;
+    public float destroyTime = 30f;
     void Start()
     {
         Invoke("Die", destroyTime);
