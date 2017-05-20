@@ -6,8 +6,13 @@ public class GameUI : MonoBehaviour {
 
     private int health;
     private int score;
+    GUIContent content;
+    GUIStyle style = new GUIStyle();
+
     private string gameInfo = "";
+    public  Texture BoxTexture;
     private Rect boxRect = new Rect(10, 10, 300, 50);
+
     void OnEnable()
     {
         PlayerBehaviour.OnUpdateHealth += HandleonUpdateHealth;
@@ -21,6 +26,9 @@ public class GameUI : MonoBehaviour {
     void Start()
     {
         UpdateUI();
+        content = new GUIContent("", BoxTexture, "This is a tooltip");
+        style.alignment = TextAnchor.MiddleCenter;
+        style.imagePosition = ImagePosition.ImageAbove;
     }
     void HandleonUpdateHealth(int newHealth)
     {
@@ -39,5 +47,6 @@ public class GameUI : MonoBehaviour {
     void OnGUI()
     {
         GUI.Box(boxRect, gameInfo);
+        GUI.Box(new Rect(50, Screen.height - 100, 200, 80), content, style);
     }
 }
