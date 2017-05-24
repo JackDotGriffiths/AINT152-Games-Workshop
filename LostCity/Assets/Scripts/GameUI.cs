@@ -7,13 +7,13 @@ public class GameUI : MonoBehaviour {
 
     public int health;
     public int score;
-    public int currentAmmo;
 
-    public class Guns
+    public  class Guns
     {
         public int CurrentMag;
         public int RemainingAmmo;
         public int GunCapacity;
+        public bool Unlocked;
     }
 
 
@@ -34,11 +34,11 @@ public class GameUI : MonoBehaviour {
     GUIContent UIBackcontent;
     private Rect boxRect = new Rect(10, 10, 300, 50);
 
-    public Guns Pistol = new Guns();
-    public Guns Shotgun = new Guns();
-    public Guns Automatic = new Guns();
-    public Guns Rocket = new Guns();
-    public Guns Rifle = new Guns();
+    public static Guns Pistol = new Guns();
+    public static Guns Shotgun = new Guns();
+    public static Guns Automatic = new Guns();
+    public static Guns Rocket = new Guns();
+    public static Guns Rifle = new Guns();
 
 
 
@@ -54,6 +54,7 @@ public class GameUI : MonoBehaviour {
     }
     void Update()
     {
+        //Retrieve mouse scroll if the user wishes to change weapon.
         if (Input.GetAxis("Mouse ScrollWheel") > 0f) // forward
         {
             WeaponIndex += 1;
@@ -144,8 +145,7 @@ public class GameUI : MonoBehaviour {
         {
             //Pistol
             content = new GUIContent(pistol);
-
-            magContent = new GUIContent(currentAmmo.ToString());
+            magContent = new GUIContent(Pistol.CurrentMag.ToString());
             remainingContent = new GUIContent(Pistol.RemainingAmmo.ToString()); 
             ShootBullet.fireTime = 1f;
         }
@@ -153,24 +153,31 @@ public class GameUI : MonoBehaviour {
         {
             //Shotgun
             content = new GUIContent(shotgun);
-            magContent = new GUIContent(currentAmmo.ToString());
+            magContent = new GUIContent(Shotgun.CurrentMag.ToString());
             remainingContent = new GUIContent(Shotgun.RemainingAmmo.ToString());
         }
         if (WeaponIndex == 3)
         {
             //Automatic
             content = new GUIContent(automatic);
+            magContent = new GUIContent(Automatic.CurrentMag.ToString());
+            remainingContent = new GUIContent(Automatic.RemainingAmmo.ToString());
             ShootBullet.fireTime = 0.05f;
         }
         if (WeaponIndex == 4)
         {
             //Rocket
             content = new GUIContent(rocket);
+            magContent = new GUIContent(Rocket.CurrentMag.ToString());
+            remainingContent = new GUIContent(Rocket.RemainingAmmo.ToString());
         }
         if (WeaponIndex == 5)
-        
+        { 
             //Rifle
             content = new GUIContent(rifle);
+            magContent = new GUIContent(Rifle.CurrentMag.ToString());
+            remainingContent = new GUIContent(Rifle.RemainingAmmo.ToString());
+        }
     }
     }
 

@@ -25,16 +25,6 @@ public class PlayerBehaviour : MonoBehaviour {
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            GetComponent<AudioSource>().Play();
-            GetComponent<Animator>().SetBool("isFiring", true);
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            GetComponent<Animator>().SetBool("isFiring", false);
-        }
-
         if (GameUI.WeaponIndex == 1)
         {
             GetComponent<SpriteRenderer>().sprite = Playerpistol;
