@@ -4,7 +4,7 @@ public class ShootBullet : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
-    public float fireTime = 2f;
+    public static float fireTime = 1f;
     private bool isFiring = false;
     void SetFiring()
     {
@@ -12,13 +12,16 @@ public class ShootBullet : MonoBehaviour
     }
     void Fire()
     {
+        //http://answers.unity3d.com/questions/175995/can-i-play-multiple-audiosources-from-one-gameobje.html
+        var aSources = GetComponents<AudioSource>(GameObject);
         isFiring = true;
         Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+        Invoke("SetFiring", fireTime);
         if (GetComponent<AudioSource>() != null)
         {
             GetComponent<AudioSource>().Play();
         }
-        Invoke("SetFiring", fireTime);
+
     }
     void Update()
     {

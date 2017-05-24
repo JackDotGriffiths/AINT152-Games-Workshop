@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ExampleClass : MonoBehaviour
+public class CarAlarmBehaviour : MonoBehaviour
 {
-    AudioSource audio;
-
-    void Start()
+    public string Tag = "";
+    void OnTriggerEnter2D(Collider2D other)
     {
-        audio = GetComponent<AudioSource>();
-    }
-
-    void OnCollisionEnter(Collision Bullet)
-    {
+        if (other.CompareTag(Tag))
+        {
+            AudioSource audio = GetComponent<AudioSource>();
             audio.Play();
+        }
     }
 }

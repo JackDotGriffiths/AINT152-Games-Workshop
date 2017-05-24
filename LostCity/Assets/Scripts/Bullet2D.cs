@@ -20,4 +20,8 @@ public class Bullet2D : MonoBehaviour
     {
         GetComponent<Rigidbody2D>().velocity = transform.up * speed;
     }
+    void OnBecameInvisible()
+    {
+        Die();
+    }
 }
