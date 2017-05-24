@@ -9,6 +9,7 @@ public class SpawnObjectTimer : MonoBehaviour {
         Invoke( "DoSpawn", spawnTime );
     }
     void DoSpawn() {
+
         SendMessage( "Spawn" );
         Invoke( "DoSpawn", spawnTime );
     }

@@ -31,6 +31,7 @@ public class GameUI : MonoBehaviour {
     public Texture rocket;
     public Texture pistol;
     public Texture GunBackground;
+    public Texture ScoreBackContent;
     GUIContent UIBackcontent;
     private Rect boxRect = new Rect(10, 10, 300, 50);
 
@@ -39,6 +40,8 @@ public class GameUI : MonoBehaviour {
     public static Guns Automatic = new Guns();
     public static Guns Rocket = new Guns();
     public static Guns Rifle = new Guns();
+
+    public static int currentRound = 1;
 
 
 
@@ -116,28 +119,40 @@ public class GameUI : MonoBehaviour {
     }
     void UpdateUI()
     {
-        gameInfo = "Score: " + score.ToString() + "\nHealth: " + health.ToString();
+        gameInfo = "Score:" + score.ToString();
     }
     void OnGUI()
     {
         UpdateUI();
         WeaponChangeBehaviour();
         style.font = (Font)Resources.Load("Bebas");
-        GUI.Box(boxRect, gameInfo);
         GUI.depth = 1;
         //Background for Gun Display
         GUI.Box(new Rect(10, Screen.height - 100, 200, 80), UIBackcontent, style);
         //Background for Ammo Display
         GUI.Box(new Rect(Screen.width - 210, Screen.height - 100, 200, 80), UIBackcontent, style);
+        //Background for Score Display
+        GUI.Box(new Rect(Screen.width - 210, Screen.height - 160, 200, 80), ScoreBackContent, style);
+
+
         GUI.depth = 0;
         //Display the currently active gun.
         GUI.Box(new Rect(10, Screen.height - 100, 200, 80), content, style);
         //Display the mag ammo remaining.
         style.fontSize = 45;
-        GUI.Box(new Rect(Screen.width - 210, Screen.height - 100, 100, 80), magContent, style);
+        GUI.Box(new Rect(Screen.width - 210, Screen.height - 95, 100, 80), magContent, style);
         //Display total ammo remaining
         style.fontSize = 35;
-        GUI.Box(new Rect(Screen.width - 210, Screen.height - 100, 250, 80), remainingContent, style);
+        GUI.Box(new Rect(Screen.width - 210, Screen.height - 95, 250, 80), remainingContent, style);
+        //Display current Score
+        style.fontSize = 25; 
+        GUI.Box(new Rect(Screen.width - 210, Screen.height - 157, 100, 80), gameInfo, style);
+        //Display Current Round
+        GUI.Box(new Rect(Screen.width / 2 - 50, 0, 100, 100), "Wave", style);
+        style.fontSize = 45;
+        GUI.Box(new Rect(Screen.width / 2 - 50, 27, 100, 100), currentRound.ToString(), style);
+        style.fontSize = 25;
+        GUI.Box(new Rect(0,0,200,50), "Zombies Remaining:" + (RoundControl.ZombiesAmountToSpawn - RoundControl.ZombiesKilled).ToString(), style);
     }
     public void WeaponChangeBehaviour()
     {
