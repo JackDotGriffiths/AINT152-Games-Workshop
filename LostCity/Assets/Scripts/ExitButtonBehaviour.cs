@@ -27,6 +27,6 @@ public class ExitButtonBehaviour : MonoBehaviour
 
     void OnMouseExit()
     {
-        transform.position = new Vector3(-47, 2, -1);
+        transform.position = new Vector3(-47, 2, -3);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoundControl : MonoBehaviour {
     public int DefaultZombies = 12;
@@ -9,6 +10,9 @@ public class RoundControl : MonoBehaviour {
     public static int ZombiesKilled = 0;
     public AudioSource audio;
 
+    public Texture PausedMenu;
+    public Texture MainMenuButton;
+    public Texture ResumeButton;
 
     public bool Paused = false;
 
@@ -31,7 +35,15 @@ public class RoundControl : MonoBehaviour {
         }
 	}
 
-    private void OnGUI()
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Paused = true;
+        }
+    }
+
+    void OnGUI()
     {
         if (Paused == true)
         {
@@ -39,7 +51,17 @@ public class RoundControl : MonoBehaviour {
             style.alignment = TextAnchor.MiddleCenter;
             style.font = (Font)Resources.Load("Bebas");
             style.fontSize = 35;
-            GUI.Box(new Rect((Screen.width) / 2 - (Screen.width) / 8, (Screen.height) / 2 - (Screen.height) / 8, (Screen.width) / 4, (Screen.height) / 4), "PAUSED", style);
+            GUI.Box(new Rect((Screen.width / 2) - (900 / 2), (Screen.height / 2) - (508 / 2), 900, 508), PausedMenu, style);
+            if (GUI.Button(new Rect((Screen.width) / 2 - (Screen.width) / 8 - 50, Screen.height - 300,200 ,60), MainMenuButton, style))
+            {
+                SceneManager.LoadSceneAsync("MainMenu");
+            }
+            Time.timeScale = 0;
+            if (GUI.Button(new Rect((Screen.width) / 2 - (Screen.width) / 8 + 200, Screen.height - 300, 200, 60), ResumeButton, style))
+            {
+                Paused =false;
+                Time.timeScale = 1;
+            }
         }
     }
 }

@@ -89,6 +89,7 @@ public class GameUI : MonoBehaviour {
     {
         health = 100;
         HealthLevel = 1.0f;
+        WeaponIndex = 1;
         currentRound = 1;
         UpdateUI();
         content = new GUIContent("", pistol, "This is a tooltip");
@@ -156,7 +157,7 @@ public class GameUI : MonoBehaviour {
         GUI.Box(new Rect(Screen.width - 210, Screen.height - 160, 200, 80), ScoreBackContent, style);
 
 
-
+        WeaponChangeBehaviour();
         GUI.depth = 0;
         //Display the currently active gun.
         GUI.Box(new Rect(10, Screen.height - 100, 200, 80), content, style);
@@ -184,8 +185,8 @@ public class GameUI : MonoBehaviour {
             content = new GUIContent(pistol);
             magContent = new GUIContent(Pistol.CurrentMag.ToString());
             remainingContent = new GUIContent(Pistol.RemainingAmmo.ToString()); 
-            ShootBullet.fireTime = 0.5f;
-            BulletHit2D.damage = 15;
+            ShootBullet.fireTime = 0.4f;
+            BulletHit2D.damage = 10;
         }
         if (WeaponIndex == 2)
         {
@@ -283,7 +284,7 @@ public class GameUI : MonoBehaviour {
                 magContent = new GUIContent(Rifle.CurrentMag.ToString());
                 remainingContent = new GUIContent(Rifle.RemainingAmmo.ToString());
                 ShootBullet.fireTime = 0.9f;
-                BulletHit2D.damage = 30;
+                BulletHit2D.damage = 20;
             }
         }
     }

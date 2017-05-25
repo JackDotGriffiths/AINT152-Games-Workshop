@@ -18,6 +18,6 @@ public class PlayButtonBehaviour : MonoBehaviour {
 
     void OnMouseExit()
     {
-        transform.position = new Vector3(-50, 2, -1);
+        transform.position = new Vector3(-50, 2, -3);
     }
 }
