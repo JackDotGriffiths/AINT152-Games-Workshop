@@ -25,11 +25,11 @@ public class ShootBullet : MonoBehaviour
     {
         if (!HasAmmo())
         {
-            isFiring = true;
-            ShootFromAmmo();
-            Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-            Invoke("SetFiring", fireTime);
-            ShootSounds();
+                isFiring = true;
+                ShootFromAmmo();
+                Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+                Invoke("SetFiring", fireTime);
+                ShootSounds();
         }
         else
         {

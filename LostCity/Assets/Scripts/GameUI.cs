@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class GameUI : MonoBehaviour {
 
-    public float health = 100;
+    public static float health = 100;
+    public float HealthLevel = 1.0f;
     public int score;
 
-    public float HealthLevel = 1.0f;
 
     public  class Guns
     {
@@ -45,7 +45,7 @@ public class GameUI : MonoBehaviour {
     public static Guns Rocket = new Guns();
     public static Guns Rifle = new Guns();
 
-    public static int currentRound = 1;
+    public static int currentRound;
 
 
 
@@ -87,6 +87,9 @@ public class GameUI : MonoBehaviour {
     }
     void Start()
     {
+        health = 100;
+        HealthLevel = 1.0f;
+        currentRound = 1;
         UpdateUI();
         content = new GUIContent("", pistol, "This is a tooltip");
         UIBackcontent = new GUIContent("", GunBackground, "Display");
@@ -117,7 +120,7 @@ public class GameUI : MonoBehaviour {
         Rifle.GunCapacity = 200;
         Rifle.Unlocked = false;
 
-        score = 1500;
+        score = 500;
     }
     void HandleonUpdateHealth(int newHealth)
     {
@@ -151,7 +154,6 @@ public class GameUI : MonoBehaviour {
         GUI.Box(new Rect(Screen.width - 210, Screen.height - 100, 200, 80), UIBackcontent, style);
         //Background for Score Display
         GUI.Box(new Rect(Screen.width - 210, Screen.height - 160, 200, 80), ScoreBackContent, style);
-        GUI.Box(new Rect(0, 50, 200, 50), (health/100).ToString(), style);
 
 
 
@@ -182,7 +184,8 @@ public class GameUI : MonoBehaviour {
             content = new GUIContent(pistol);
             magContent = new GUIContent(Pistol.CurrentMag.ToString());
             remainingContent = new GUIContent(Pistol.RemainingAmmo.ToString()); 
-            ShootBullet.fireTime = 1f;
+            ShootBullet.fireTime = 0.5f;
+            BulletHit2D.damage = 15;
         }
         if (WeaponIndex == 2)
         {
@@ -205,6 +208,8 @@ public class GameUI : MonoBehaviour {
                 content = new GUIContent(shotgun);
                 magContent = new GUIContent(Shotgun.CurrentMag.ToString());
                 remainingContent = new GUIContent(Shotgun.RemainingAmmo.ToString());
+                ShootBullet.fireTime = 1.2f;
+                BulletHit2D.damage = 50;
             }
         }
         if (WeaponIndex == 3)
@@ -228,7 +233,8 @@ public class GameUI : MonoBehaviour {
                 content = new GUIContent(automatic);
                 magContent = new GUIContent(Automatic.CurrentMag.ToString());
                 remainingContent = new GUIContent(Automatic.RemainingAmmo.ToString());
-                ShootBullet.fireTime = 0.05f;
+                ShootBullet.fireTime = 0.1f;
+                BulletHit2D.damage = 20;
             }
         }
         if (WeaponIndex == 4)
@@ -252,6 +258,7 @@ public class GameUI : MonoBehaviour {
                 content = new GUIContent(rocket);
                 magContent = new GUIContent(Rocket.CurrentMag.ToString());
                 remainingContent = new GUIContent(Rocket.RemainingAmmo.ToString());
+                BulletHit2D.damage = 50;
             }
         }
         if (WeaponIndex == 5)
@@ -275,6 +282,8 @@ public class GameUI : MonoBehaviour {
                 content = new GUIContent(rifle);
                 magContent = new GUIContent(Rifle.CurrentMag.ToString());
                 remainingContent = new GUIContent(Rifle.RemainingAmmo.ToString());
+                ShootBullet.fireTime = 0.9f;
+                BulletHit2D.damage = 30;
             }
         }
     }

@@ -2,7 +2,7 @@
 using System.Collections;
 public class ZombieBehaviour : MonoBehaviour
 {
-    public int health = 10;
+    public int health = 30;
     public GameObject explosionPrefab;
     public int damage = 2;
     public float adjustExplosionAngle = 0.0f;
@@ -26,7 +26,7 @@ public class ZombieBehaviour : MonoBehaviour
     }
 
 
-    public void TakeDamage(int damage)
+    public bool TakeDamage(int damage)
     {
         health -= damage;
         if (health <= 0)
@@ -38,6 +38,11 @@ public class ZombieBehaviour : MonoBehaviour
             GetComponent<AddScore>().DoSendScore();
             RoundControl.ZombiesKilled += 1;
             Destroy(gameObject);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
     void FixedUpdate()
