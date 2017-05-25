@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnObjectTimer : MonoBehaviour {
 
-	 public float spawnTime = 5.0f;
+	public float spawnTime = 5.0f;
     void Start() {
         Invoke( "DoSpawn", spawnTime );
     }

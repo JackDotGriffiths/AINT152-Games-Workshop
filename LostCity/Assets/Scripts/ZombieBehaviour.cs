@@ -35,7 +35,6 @@ public class ZombieBehaviour : MonoBehaviour
                                                  transform.eulerAngles.y,
                                                  transform.eulerAngles.z + adjustExplosionAngle);
             Instantiate(explosionPrefab, transform.position, newRot);
-
             GetComponent<AddScore>().DoSendScore();
             RoundControl.ZombiesKilled += 1;
             Destroy(gameObject);

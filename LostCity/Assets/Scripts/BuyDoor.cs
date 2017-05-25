@@ -7,6 +7,11 @@ public class BuyDoor : MonoBehaviour
     public int cost;
     public bool triggered;
     public GameObject destory;
+    public static bool Area2Open = false;
+    public static bool Area3Open = false;
+    public static bool Area4Open = false;
+    public static bool Area5Open = false;
+
     void OnGUI()
     {
         if (triggered == true)
@@ -28,6 +33,7 @@ public class BuyDoor : MonoBehaviour
         }
         if (Input.GetKeyDown("f") && triggered == true && afford == true)
         {
+            allowSpawning();
             GameObject.Find("UserInterface").GetComponent<GameUI>().score -= cost;
             Destroy(gameObject);
             Destroy(destory);
@@ -46,6 +52,47 @@ public class BuyDoor : MonoBehaviour
         if (other.CompareTag(Tag))
         {
             triggered = false;
+        }
+    }
+
+    private void allowSpawning()
+    {
+        if (destory == GameObject.Find("Road_Barrier 1"))
+        {
+            Area2Open = true;
+            AreaSpawnerControl.Spawner3Active = true;
+            AreaSpawnerControl.Spawner4Active = true;
+            AreaSpawnerControl.Spawner5Active = true;
+        }
+        if (destory == GameObject.Find("Road_Barrier 2"))
+        {
+            Area4Open = true;
+            AreaSpawnerControl.Spawner8Active = true;
+            AreaSpawnerControl.Spawner9Active = true;
+
+        }
+        if (destory == GameObject.Find("Road_Barrier 3"))
+        {
+            Area3Open = true;
+            AreaSpawnerControl.Spawner6Active = true;
+            AreaSpawnerControl.Spawner7Active = true;
+        }
+        if (destory == GameObject.Find("Road_Barrier 4"))
+        {
+            Area3Open = true;
+            Area4Open = true;
+            AreaSpawnerControl.Spawner8Active = true;
+            AreaSpawnerControl.Spawner9Active = true;
+            AreaSpawnerControl.Spawner6Active = true;
+            AreaSpawnerControl.Spawner7Active = true;
+
+        }
+        if (destory == GameObject.Find("Road_Barrier 5"))
+        {
+            Area5Open = true;
+            AreaSpawnerControl.Spawner10Active = true;
+            AreaSpawnerControl.Spawner11Active = true;
+            AreaSpawnerControl.Spawner12Active = true;
         }
     }
 }

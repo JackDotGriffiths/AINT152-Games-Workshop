@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehaviour : MonoBehaviour {
 
@@ -18,10 +16,20 @@ public class PlayerBehaviour : MonoBehaviour {
     public Sprite Playerrocket;
     public Sprite Playerpistol;
 
+    public Texture DeadBackground;
+    public Texture MainMenuButton;
+    GUIContent content;
+    GUIStyle style = new GUIStyle();
+
+    public bool Dead = false;
+    public bool NewHighScore = false;
+    public int Highscore;
+   
     void Start()
     {
-        gunAnim = GetComponent<Animator>();
         SendHealthData();
+        style.alignment = TextAnchor.MiddleCenter;
+        style.imagePosition = ImagePosition.ImageAbove;
     }
     void Update()
     {
@@ -57,12 +65,43 @@ public class PlayerBehaviour : MonoBehaviour {
     }
     void Die()
     {
+        Dead = true;
+        Highscore = PlayerPrefs.GetInt("Highscore");
+        if (Highscore <= GameUI.currentRound)
+        {
+            NewHighScore = true;
+            PlayerPrefs.SetInt("Highscore", GameUI.currentRound);
+            PlayerPrefs.Save();
+        }
+
     }
     void SendHealthData()
+    { 
+       OnUpdateHealth(health);
+    }
+    private void OnGUI()
     {
-        if (OnUpdateHealth != null)
+        if (Dead == true)
         {
-            OnUpdateHealth(health);
+            GUI.depth = 1;
+            style.font = (Font)Resources.Load("Bebas");
+            GUI.Box(new Rect((Screen.width / 2) - (900 / 2), (Screen.height / 2) - (508 / 2), 900,508), DeadBackground, style);
+            GUI.depth = 0;
+            style.fontSize = 25;
+            GUI.Box(new Rect((Screen.width) / 2 - (Screen.width) / 8, Screen.height - 310, (Screen.width) / 4, (Screen.height) / 4), "Wave Reached: " + GameUI.currentRound.ToString(), style);
+            if (NewHighScore == true)
+            {
+                GUI.Box(new Rect((Screen.width) / 2 - (Screen.width) / 8, Screen.height - 260, (Screen.width) / 4, (Screen.height) / 4), "New Highscore!", style);
+            }
+            GUI.Box(new Rect((Screen.width) / 2 - (Screen.width) / 8, Screen.height - 230, (Screen.width) / 4, (Screen.height) / 4), "Highscore: " + Highscore, style);
+
+            Time.timeScale = 0;
+            if (GUI.Button(new Rect((Screen.width) / 2 - (Screen.width) / 8, Screen.height - 110, (Screen.width) / 4, (Screen.height) / 4), MainMenuButton,style))
+            {
+                SceneManager.LoadSceneAsync("MainMenu");
+                
+            }
+
         }
     }
 }

@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class GameUI : MonoBehaviour {
 
-    public int health;
+    public float health = 100;
     public int score;
+
+    public float HealthLevel = 1.0f;
 
     public  class Guns
     {
@@ -16,6 +18,7 @@ public class GameUI : MonoBehaviour {
         public bool Unlocked;
     }
 
+    public bool ScrollingDown = true;
 
     static public int WeaponIndex = 1;
     GUIContent content;
@@ -32,6 +35,7 @@ public class GameUI : MonoBehaviour {
     public Texture pistol;
     public Texture GunBackground;
     public Texture ScoreBackContent;
+    public Texture HealthAlert;
     GUIContent UIBackcontent;
     private Rect boxRect = new Rect(10, 10, 300, 50);
 
@@ -60,20 +64,22 @@ public class GameUI : MonoBehaviour {
         //Retrieve mouse scroll if the user wishes to change weapon.
         if (Input.GetAxis("Mouse ScrollWheel") > 0f) // forward
         {
-            WeaponIndex += 1;
-            if (WeaponIndex == 5)
+            WeaponIndex -= 1;
+            ScrollingDown = false;
+            if (WeaponIndex == 0)
             {
-                WeaponIndex = 1;
+                WeaponIndex = 5;
             }
             WeaponChangeBehaviour();
 
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0f) // backwards
         {
-            WeaponIndex -= 1;
-            if (WeaponIndex == 0)
+            WeaponIndex += 1;
+            ScrollingDown = true;
+            if (WeaponIndex > 5)
             {
-                WeaponIndex = 6;
+                WeaponIndex = 1;
             }
             WeaponChangeBehaviour();
 
@@ -94,18 +100,24 @@ public class GameUI : MonoBehaviour {
         Shotgun.CurrentMag = 0;
         Shotgun.RemainingAmmo = 200;
         Shotgun.GunCapacity = 200;
+        Shotgun.Unlocked = false;
 
         Automatic.CurrentMag = 0;
         Automatic.RemainingAmmo = 320;
         Automatic.GunCapacity = 320;
+        Automatic.Unlocked = false;
 
         Rocket.CurrentMag = 0;
         Rocket.RemainingAmmo = 8;
         Rocket.GunCapacity = 8;
+        Rocket.Unlocked = false;
 
         Rifle.CurrentMag = 0;
         Rifle.RemainingAmmo = 200;
         Rifle.GunCapacity = 200;
+        Rifle.Unlocked = false;
+
+        score = 1500;
     }
     void HandleonUpdateHealth(int newHealth)
     {
@@ -119,7 +131,9 @@ public class GameUI : MonoBehaviour {
     }
     void UpdateUI()
     {
-        gameInfo = "Score:" + score.ToString();
+
+        gameInfo = "£" + score.ToString();
+        HealthLevel = 1 - (health / 100);
     }
     void OnGUI()
     {
@@ -127,12 +141,18 @@ public class GameUI : MonoBehaviour {
         WeaponChangeBehaviour();
         style.font = (Font)Resources.Load("Bebas");
         GUI.depth = 1;
+
+        GUI.color = new Color(1.0f, 1.0f, 1.0f, HealthLevel);
+        GUI.Box(new Rect(0, 0, 1920, 1080), HealthAlert, style);
+        GUI.color = Color.white;
         //Background for Gun Display
         GUI.Box(new Rect(10, Screen.height - 100, 200, 80), UIBackcontent, style);
         //Background for Ammo Display
         GUI.Box(new Rect(Screen.width - 210, Screen.height - 100, 200, 80), UIBackcontent, style);
         //Background for Score Display
         GUI.Box(new Rect(Screen.width - 210, Screen.height - 160, 200, 80), ScoreBackContent, style);
+        GUI.Box(new Rect(0, 50, 200, 50), (health/100).ToString(), style);
+
 
 
         GUI.depth = 0;
@@ -155,7 +175,7 @@ public class GameUI : MonoBehaviour {
         GUI.Box(new Rect(0,0,200,50), "Zombies Remaining:" + (RoundControl.ZombiesAmountToSpawn - RoundControl.ZombiesKilled).ToString(), style);
     }
     public void WeaponChangeBehaviour()
-    {
+    { 
         if (WeaponIndex == 1)
         {
             //Pistol
@@ -167,31 +187,95 @@ public class GameUI : MonoBehaviour {
         if (WeaponIndex == 2)
         {
             //Shotgun
-            content = new GUIContent(shotgun);
-            magContent = new GUIContent(Shotgun.CurrentMag.ToString());
-            remainingContent = new GUIContent(Shotgun.RemainingAmmo.ToString());
+            if (Shotgun.Unlocked == false)
+            {
+                if (ScrollingDown == true)
+                {
+                    WeaponIndex += 1;
+                }
+                else
+                {
+                    WeaponIndex -= 1;
+                    WeaponChangeBehaviour();
+                    return;
+                }
+            }
+            else if (Shotgun.Unlocked == true)
+            {
+                content = new GUIContent(shotgun);
+                magContent = new GUIContent(Shotgun.CurrentMag.ToString());
+                remainingContent = new GUIContent(Shotgun.RemainingAmmo.ToString());
+            }
         }
         if (WeaponIndex == 3)
         {
             //Automatic
-            content = new GUIContent(automatic);
-            magContent = new GUIContent(Automatic.CurrentMag.ToString());
-            remainingContent = new GUIContent(Automatic.RemainingAmmo.ToString());
-            ShootBullet.fireTime = 0.05f;
+            if (Automatic.Unlocked == false)
+            {
+                if (ScrollingDown == true)
+                {
+                    WeaponIndex += 1;
+                }
+                else
+                {
+                    WeaponIndex -= 1;
+                    WeaponChangeBehaviour();
+                    return;
+                }
+            }
+            else if (Automatic.Unlocked == true)
+            {
+                content = new GUIContent(automatic);
+                magContent = new GUIContent(Automatic.CurrentMag.ToString());
+                remainingContent = new GUIContent(Automatic.RemainingAmmo.ToString());
+                ShootBullet.fireTime = 0.05f;
+            }
         }
         if (WeaponIndex == 4)
         {
             //Rocket
-            content = new GUIContent(rocket);
-            magContent = new GUIContent(Rocket.CurrentMag.ToString());
-            remainingContent = new GUIContent(Rocket.RemainingAmmo.ToString());
+            if (Rocket.Unlocked == false)
+            {
+                if (ScrollingDown == true)
+                {
+                    WeaponIndex += 1;
+                }
+                else
+                {
+                    WeaponIndex -= 1;
+                    WeaponChangeBehaviour();
+                    return;
+                }
+            }
+            else if (Rocket.Unlocked == true)
+            {
+                content = new GUIContent(rocket);
+                magContent = new GUIContent(Rocket.CurrentMag.ToString());
+                remainingContent = new GUIContent(Rocket.RemainingAmmo.ToString());
+            }
         }
         if (WeaponIndex == 5)
-        { 
+        {
             //Rifle
-            content = new GUIContent(rifle);
-            magContent = new GUIContent(Rifle.CurrentMag.ToString());
-            remainingContent = new GUIContent(Rifle.RemainingAmmo.ToString());
+            if (Rifle.Unlocked == false)
+            {
+                if (ScrollingDown == true)
+                {
+                    WeaponIndex += 1;
+                }
+                else
+                {
+                    WeaponIndex -= 1;
+                    WeaponChangeBehaviour();
+                    return;
+                }
+            }
+            else if (Rifle.Unlocked == true)
+            {
+                content = new GUIContent(rifle);
+                magContent = new GUIContent(Rifle.CurrentMag.ToString());
+                remainingContent = new GUIContent(Rifle.RemainingAmmo.ToString());
+            }
         }
     }
     }
