@@ -18,7 +18,6 @@ public class PlayerBehaviour : MonoBehaviour {
 
     public Texture DeadBackground;
     public Texture MainMenuButton;
-    GUIContent content;
     GUIStyle style = new GUIStyle();
 
     public bool Dead = false;
